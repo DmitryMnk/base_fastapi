@@ -35,7 +35,7 @@ pre-commit = "^4.2.0"
 line-length = 88
 indent-width = 4
 target-version = "py313"
-fix = true
+fix = false
 exclude = [
     ".bzr",
     ".direnv",
@@ -66,10 +66,9 @@ exclude = [
 ]
 
 [tool.ruff.lint]
-select = ["E", "F", "W", "C", "B", "SIM", "I"]
-exclude = ["tests/*", "migrations/*"]
-
-fixable = ["ALL"]
+select = ["E", "F", "W", "C", "B", "SIM", "I", "D"]
+exclude = ["tests/*", "app/migrations/*"]
+ignore = ["D104", "D100", 'D205', "D211", "D213", "I001", "D203"]
 unfixable = []
 
 [tool.ruff.format]
@@ -91,8 +90,8 @@ explicit_package_bases = true
 [tool.isort]
 profile = "black"
 line_length = 88
-known_first_party = ["repositories", "utils", "api", "core", "tests", "schemas", "services", "models"]
-known_third_party = ['fastapi', 'sqlalchemy', 'pydantic', 'pydantic-settings', "pyjwt", "redis",]
+known_first_party = [ "utils", "api", "core", "tests", "services", 'infrastructure']
+known_third_party = ['fastapi', 'sqlalchemy', 'pydantic', 'pydantic-settings', "pyjwt", "redis", "starlette"]
 sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
 skip = ["migrations"]
 

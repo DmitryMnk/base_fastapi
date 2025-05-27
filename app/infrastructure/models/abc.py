@@ -7,8 +7,7 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
 class ABCModel(AsyncAttrs, DeclarativeBase):
-    """
-    Абстрактная базовая модель для всех SQLAlchemy моделей в приложении.
+    """Абстрактная базовая модель для всех SQLAlchemy моделей в приложении.
 
     Наследует AsyncAttrs для поддержки асинхронного доступа к атрибутам и
     DeclarativeBase для определения моделей SQLAlchemy.
@@ -23,8 +22,8 @@ class ABCModel(AsyncAttrs, DeclarativeBase):
     )
 
     def to_dict(self) -> Dict[str, Any]:
-        """
-        Преобразует модель в словарь.
+        """Преобразует модель в словарь.
+
         :return: Словарь, содержащий все поля модели и их значения.
         """
         return {
@@ -32,8 +31,8 @@ class ABCModel(AsyncAttrs, DeclarativeBase):
         }
 
     def __repr__(self) -> str:
-        """
-        Создает строковое представление объекта модели.
+        """Создает строковое представление объекта модели.
+
         :return: Строка в формате "ИмяКласса(поле1 = значение1,
          поле2 = значение2, ...)".
         """
@@ -42,8 +41,7 @@ class ABCModel(AsyncAttrs, DeclarativeBase):
 
 
 class ABCAdminModel(ABCModel):
-    """
-    Расширенная абстрактная модель с полями для
+    """Расширенная абстрактная модель с полями для
     отслеживания времени создания и обновления.
 
     Наследует ABCModel и добавляет поля для аудита изменений.

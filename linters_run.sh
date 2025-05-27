@@ -15,6 +15,6 @@ echo "Start mypy..."
 mypy "$directory"
 
 echo "Start ruff..."
-ruff check --fix "$directory"
+ruff check "$directory"
 
 echo "Done."
