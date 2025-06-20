@@ -11,22 +11,6 @@ class LoggingSettings(BaseSettings):
     Этот класс используется для хранения и управления настройками логирования
     приложения. Он наследуется от `BaseSettings`, что позволяет загружать
     настройки из переменных окружения.
-
-    Атрибуты:
-        LOGGER_NAME (str): Имя логгера. По умолчанию "appLogger".
-        LEVEL (str): Уровень логирования. По умолчанию "DEBUG".
-            Доступные уровни: "DEBUG", "INFO", "WARNING", "ERROR".
-        INTERVAL (int): Интервал ротации логов в днях. По умолчанию 1.
-        BACKUP_COUNT (int): Количество резервных копий логов. По умолчанию 30.
-        ENCODING (str): Кодировка файлов логов. По умолчанию "utf-8".
-        DISABLE_STREAM (bool): Указывает, следует ли отключить вывод логов в поток.
-            По умолчанию False.
-
-    Методы:
-        log_path (str): Возвращает путь к директории для хранения логов.
-            Директория создается, если она не существует.
-        log_level (int): Возвращает уровень логирования в виде целого
-            числа, соответствующего заданному уровню.
     """
 
     model_config = SettingsConfigDict(extra="ignore", env_prefix="LOGGING_")
@@ -126,12 +110,28 @@ class PostgresSettings(BaseSettings):
         )
 
 
+class RedisSettings(BaseSettings):
+    """Класс для настройки параметров подключения к Redis.
+
+    Этот класс наследуется от BaseSettings и используется для загрузки
+    конфигурации Redis из переменных окружения. Параметры могут быть
+    заданы через переменные окружения с префиксом "REDIS_".
+    """
+
+    model_config = SettingsConfigDict(extra="ignore", env_prefix="REDIS_")
+    HOST: str = "app-redis"
+    PORT: int = 6379
+    PASSWORD: str = "redis"
+    CACHE_API_DB: int = 0
+
+
 class AppSettings(BaseSettings):
     """Класс настроек приложения."""
 
     model_config = SettingsConfigDict(extra="ignore", env_prefix="APP_")
     POSTGRES: PostgresSettings = PostgresSettings()
     LOGGING: LoggingSettings = LoggingSettings()
+    REDIS: RedisSettings = RedisSettings()
     API_PREFIX: str = "/api/service"
     DEBUG: bool = True
 

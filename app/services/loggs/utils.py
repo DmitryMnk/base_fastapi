@@ -2,7 +2,7 @@ import traceback
 from typing import Any
 
 
-def logg_error_data(message: str, exc: Exception) -> dict[str, Any]:
+def logg_error_data(exc: Exception) -> dict[str, Any]:
     """Форматирует данные об ошибке в виде словаря для логирования.
 
     Эта функция принимает сообщение об ошибке и исключение, а затем
@@ -21,11 +21,7 @@ def logg_error_data(message: str, exc: Exception) -> dict[str, Any]:
     """
     error_stack: str = traceback.format_exc()
     return {
-        "message": message,
-        "error": {
-            "type": type(exc).__name__,
-            "description": str(exc),
-            "args": exc.args,
-            "traceback": error_stack,
-        },
+        "type": type(exc).__name__,
+        "description": str(exc),
+        "traceback": error_stack,
     }

@@ -43,7 +43,6 @@ class ABCModel(AsyncAttrs, DeclarativeBase):
 class ABCAdminModel(ABCModel):
     """Расширенная абстрактная модель с полями для
     отслеживания времени создания и обновления.
-
     Наследует ABCModel и добавляет поля для аудита изменений.
     """
 
@@ -51,12 +50,12 @@ class ABCAdminModel(ABCModel):
 
     created_at: Mapped[datetime.datetime] = mapped_column(
         DateTime(timezone=False),
-        default=func.now(),  # pylint: disable=not-callable
+        default=func.now(),
         nullable=False,
     )
     updated_at: Mapped[datetime.datetime] = mapped_column(
         DateTime(timezone=False),
-        default=func.now(),  # pylint: disable=not-callable
-        onupdate=func.now(),  # pylint: disable=not-callable
+        default=func.now(),
+        onupdate=func.now(),
         nullable=False,
     )

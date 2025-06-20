@@ -59,13 +59,14 @@ async def logging_middleware(
 
     except Exception as e:
         process_time = time.time() - start_time
-        logger.error(
-            logg_error_data(
-                "Ошибка запроса.",
-                e,
-            ),
-            extra={
+        extra = logg_error_data(e)
+        extra.update(
+            {
                 "process_time_ms": round(process_time * 1000, 2),
-            },
+            }
+        )
+        logger.error(
+            "Ошибка обработки запроса.",
+            extra=extra,
         )
         raise

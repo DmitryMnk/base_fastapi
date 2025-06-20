@@ -1,11 +1,15 @@
 from contextlib import asynccontextmanager
-from typing import AsyncIterator
+from typing import TYPE_CHECKING, AsyncIterator
 
-from fastapi import FastAPI
+from fastapi import FastAPI, status
+from starlette.responses import JSONResponse
 
 from core import settings
 from services import startup_app
 from services.middlewares import setup_middlewares
+
+if TYPE_CHECKING:
+    from fastapi import Request
 
 
 @asynccontextmanager
@@ -30,3 +34,27 @@ app = FastAPI(
 )
 
 setup_middlewares(app)
+
+
+@app.exception_handler(Exception)  # type: ignore
+async def general_exception_handler(
+    request: "Request",
+    exc: Exception,
+) -> JSONResponse:
+    """Обработчик исключений для обработки всех непредвиденных ошибок.
+
+    Этот обработчик перехватывает все исключения, возникающие в приложении,
+    и возвращает стандартный ответ с кодом состояния 400 и сообщением об ошибке.
+
+    :param request: Объект запроса, который вызвал исключение.
+    :param exc: Исключение, которое было вызвано.
+    :return: Ответ в формате JSON с кодом состояния 400 и сообщением
+        о том, что произошла ошибка.
+    """
+    response: JSONResponse = JSONResponse(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        content={
+            "detail": "Что-то пошло не так.",
+        },
+    )
+    return response

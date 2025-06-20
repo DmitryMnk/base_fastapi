@@ -5,6 +5,23 @@ networks:
 
 
 services:
+
+  app_redis:
+    image: redis:8-alpine3.21
+    container_name: ${APP_PROJECT_PREFIX}-redis
+    hostname: ${REDIS_HOST}
+    restart: always
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+    env_file:
+      - .env
+    networks:
+      - app-api-network
+    volumes:
+      - ./data/redis:/data
+      - ./containers/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    command: ['redis-server', '/usr/local/etc/redis/redis.conf']
+
   app_psql:
     container_name: ${APP_PROJECT_PREFIX}-psql
     hostname: ${POSTGRES_HOST}
